@@ -196,7 +196,7 @@ module NotionAPI
       schema = collection_data['collection'][collection_id]['value']['schema']
       column_names = NotionAPI::CollectionView.extract_collection_view_column_names(schema)
       row_instances = row_ids.map { |row_id| NotionAPI::CollectionViewRow.new(row_id, @parent_id, @collection_id, @view_id) }
-      clean_row_instances = row_instances.filter { |row| collection_data['block'][row.id] }
+      clean_row_instances = row_instances.select { |row| collection_data['block'][row.id] }
       clean_row_instances.each { |row| row.instance_variable_set(:@column_names, column_names) }
       CollectionViewRow.class_eval { attr_reader :column_names }
 
